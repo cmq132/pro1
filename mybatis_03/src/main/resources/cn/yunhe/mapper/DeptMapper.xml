@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yunhe.mapper.DeptMapper">
+<!--    <resultMap id="DeptMap" type="dept">-->
+<!--        <id property="deptno" column="deptno"></id>-->
+<!--        <result property="dname" column="dname"></result>-->
+<!--        <result property="loc" column="loc"></result>-->
+<!--        <collection property="empList" ofType="Emp">-->
+<!--            <id property="empno" column="empno"></id>-->
+<!--            <result property="ename" column="ename"></result>-->
+<!--            <result property="salary" column="salary"></result>-->
+<!--            <result property="hiredate" column="hiredate"></result>-->
+<!--            <result property="deptno" column="deptno"></result>-->
+
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="findDept" resultMap="DeptMap">-->
+<!--        select *-->
+<!--        from-->
+<!--            emp e,dept d-->
+<!--            where e.deptno=d.`deptno`-->
+<!--            and d.`dname`=#{dname}-->
+<!--    </select>-->
+    <resultMap id="deptMap" type="dept" autoMapping="true">
+        <id column="deptno" property="deptno"></id>
+        <collection property="empList" ofType="emp" column="deptno" select="cn.yunhe.mapper.EmpMapper.findByDeptNo" autoMapping="true" fetchType="lazy">
+            <id column="empno" property="empno"></id>
+        </collection>
+    </resultMap>
+    <select id="findDept" resultMap="deptMap">
+        select * from dept where dname=#{dname}
+    </select>
+</mapper>
